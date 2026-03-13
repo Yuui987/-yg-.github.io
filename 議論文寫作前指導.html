@@ -1,7 +1,9 @@
-<!DOCTYPE html><html lang="zh-HK"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>議論文準備：近朱者赤，近墨者黑</title>
+    <title>議論文轉譯器：近朱者赤，近墨者黑</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -84,6 +86,7 @@
         .dark .bg-green-100 { background-color: #064e3b !important; }
         .dark .text-green-700 { color: #6ee7b7 !important; }
         .dark .bg-gray-200 { background-color: #334155 !important; }
+        .dark .border-gray-200 .mt-2.border-t { border-color: #334155 !important; }
 
         .option-label-tag {
             display: inline-block;
@@ -176,15 +179,15 @@
                 title: "評價：正文論點",
                 thought: "🧠 模擬立場：同意這句話。",
                 options: [
-                    { id: "arg1_1", label: "論述例子一", text: "我支持「近朱者赤，近墨者黑」，因為環境對人的影響很大。首先，荀子說過，「蓬生麻中，不扶而直；白沙在涅，與之俱黑。」其次，一個人的品格就像一張潔白的紙。當它長時間接觸到紅色的顏料，便會逐漸染上紅色；若它靠近黑色的墨水，則會沾染上黑色。我們身邊的朋友和環境，就像是那些顏料和墨水。這說明了人會被身邊的人同化，所以我們要小心選擇朋友，避免被染黑。我們在不知不覺間，就會受到他們的影響，最終形成我們的品格。如果他們有很多壞習慣，我們最終也會跟著他們同流合污。綜上所述，我認為這句話很正確。" },
-                    { id: "arg1_2", label: "論述例子二", text: "古語有云：「近朱者赤，近墨者黑。」這句話點出了環境薰陶如何影響人身心發展的深刻道理。荀子曾言：「蓬生麻中，不扶而直；白沙在涅，與之俱黑。」好的環境像麻稈一樣，讓原來細弱、雜亂的蓬草也能挺直生長；壞的環境像黑泥，即使不特意染色，裏面混入的白砂也會變黑。人的品性也和蓬草、白砂一樣。古時孟母三遷，孟母重視兒子的教育環境，從墓地、市集搬到學堂旁，最終把孟子培養成一代大儒。優質環境為孟子日後的經學造詣埋下種子——試想若孟母沒有堅持她的理念、未曾搬離墓地附近，未來她的孩子會學喪葬之事多呢，還是讀學堂的書、成為一代大儒的機會多呢？由上可知，客觀環境對個人成長的影響不容小覷。" }
+                    { id: "arg1_1", label: "論述例子一", text: "我支持「近朱者赤，近墨者黑」，因為環境對人的影響很大。首先，荀子說過，「蓬生麻中，不扶而直；白沙在涅，與之俱黑。」其次，一個人的品格就像一張潔白的紙。我們身邊的朋友和環境，就像是那些顏料和墨水，這說明了人會被身邊的人同化。如果他們有很多壞習慣，我們最終也會跟著他們同流合污。如果我們和那些勤奮、積極的朋友在一起，那麼我們自然也會受到影響，變得更加努力和進步。綜上所述，我認為這句話很正確。" },
+                    { id: "arg1_2", label: "論述例子二", text: "古語有云：「近朱者赤，近墨者黑。」這句話點出了環境薰陶如何影響人身心發展的深刻道理。荀子曾言：「蓬生麻中，不扶而直；白沙在涅，與之俱黑。」好的環境像麻稈一樣，讓原來細弱、雜亂的蓬草也能挺直生長；壞的環境像黑泥，即使不特意染色，裏面混入的白砂也會變黑。人的品性也和蓬草、白砂一樣。古時孟母三遷，孟母重視兒子的教育環境，從墓地、市集搬到學堂旁，最終把孟子培養成一代大儒。優質環境為孟子日後的經學造詣埋下種子——試想若孟母沒有堅持她的理念、未曾搬離墓地附近，未來她的孩子會學喪葬之事多呢，還是讀學宮的書、成為一代大儒的機會多呢？由上可知，客觀環境對個人成長的影響不容小覷。" }
                 ]
             },
             {
                 title: "評價：駁論",
                 thought: "🧠 模擬立場：部分同意這句話。",
                 options: [
-                    { id: "refute_1", label: "論述例子三", text: "我認為「近朱者赤，近墨者黑」這句話有其道理，因為身邊的人確實會影響我們。但這並不是絕對的。我們可以把一個人的心智想像成一個篩子。這個篩子雖然可能會讓一些沙子和泥土掉下去，但它同時也可以把一些不好的東西篩掉，只留下好的沙子。所以，我們不是完全被動地接受所有影響，而是可以選擇過濾掉壞的，只學習好的，因為我們有自己的想法和判斷力。" },
+                    { id: "refute_1", label: "論述例子三", text: "我認為「近朱者赤，近墨者黑」這句話有其道理，因為身邊的人確實會影響我們。但這並不是絕對的。我們可以把一個人的心智想像成一個篩子。這個篩子雖然可能會讓一些沙子和泥土掉下去，但它同時也可以把一些不好的東西篩掉，只留下好的東西。所以，我們不是完全被動地接受所有影響，而是可以選擇過濾掉壞的，只學習好的，因為我們有自己的想法和判斷力。" },
                     { id: "refute_2", label: "論述例子四", text: "我部分認同「近朱者赤，近墨者黑」這句古訓，它精闢地指出外在環境對個體潛移默化的影響。然而，如果我們將其奉為圭臬、視它為一種必然的宿命論，便未免低估了人類心靈的強大力量。每個人的意志像一座擁有堅固核心的堡壘，其中蘊含著獨特的價值觀、判斷力與道德準繩，這便是我們抵禦外在侵蝕的防禦系統。周遭的「朱」與「墨」，固然會如潮水般拍打著堡壘的外牆，試圖滲透、沖刷，甚至滲入內部。然而，只要堡壘的核心不曾動搖，其防禦系統便會去蕪存菁，甚至反彈外來的負面影響。所以，真正決定我們最終色彩的，由內心的選擇所控。一個意志堅定、內省自覺的人，即使身處「墨」海，亦能出淤泥而不染。正如孔子曰：「為仁由己，而由人乎哉？」一個人的品德修養與行為準則，最終源於自身的選擇與努力，而非全然受外在環境所擺佈。" }
                 ]
             }
@@ -196,9 +199,15 @@
 
         // Per-step, per-option evaluation data
         // evalData[stepIndex][optionIndex] = { techniques: Set, stars: 0 }
-        const evalData = steps.map(function(step) {
+        const INTRO_CHECKS = ["點出命題", "交代立場", "核心論點預覽"];
+
+        const evalData = steps.map(function(step, si) {
             return step.options.map(function() {
-                return { techniques: new Set(), stars: 0 };
+                var base = { techniques: new Set(), stars: 0, peelc: false };
+                if (si === 0) {
+                    base.introChecks = new Set();
+                }
+                return base;
             });
         });
 
@@ -238,24 +247,56 @@
             var step = steps[currentStep];
             var html = '<div class="fade-in">';
 
-            // Section 1: Argumentation techniques
+            // Section 1: Evaluation checkboxes (different for intro vs other steps)
             html += '<div class="mb-5">';
-            html += '<h3 class="text-base font-bold text-gray-800 mb-3">\u{1F50D} 判斷文例所用論證手法，然後勾選對應選擇</h3>';
 
-            step.options.forEach(function(opt, oi) {
-                var data = evalData[currentStep][oi];
-                html += '<div class="eval-card">';
-                html += '<p class="text-sm font-semibold text-gray-700 mb-2"><i class="fas fa-file-alt text-blue-400"></i> ' + opt.label + '</p>';
-                html += '<div class="grid grid-cols-2 gap-1">';
-                TECHNIQUES.forEach(function(tech) {
-                    var checked = data.techniques.has(tech) ? 'checked' : '';
-                    html += '<label class="technique-cb">';
-                    html += '<input type="checkbox" ' + checked + ' onchange="toggleTechnique(' + currentStep + ',' + oi + ',\'' + tech + '\',this.checked)">';
-                    html += '<span class="text-gray-700">' + tech + '</span>';
-                    html += '</label>';
+            if (currentStep === 0) {
+                // 引言 page: show 點出命題, 交代立場, 核心論點預覽
+                html += '<h3 class="text-base font-bold text-gray-800 mb-3">\u2705 勾選文例具備的引言要素</h3>';
+
+                step.options.forEach(function(opt, oi) {
+                    var data = evalData[currentStep][oi];
+                    html += '<div class="eval-card">';
+                    html += '<p class="text-sm font-semibold text-gray-700 mb-2"><i class="fas fa-file-alt text-blue-400"></i> ' + opt.label + '</p>';
+                    html += '<div class="grid grid-cols-1 gap-1">';
+                    INTRO_CHECKS.forEach(function(ic) {
+                        var checked = data.introChecks.has(ic) ? 'checked' : '';
+                        html += '<label class="technique-cb">';
+                        html += '<input type="checkbox" ' + checked + ' onchange="toggleIntroCheck(' + currentStep + ',' + oi + ',\'' + ic + '\',this.checked)">';
+                        html += '<span class="text-gray-700">' + ic + '</span>';
+                        html += '</label>';
+                    });
+                    html += '</div>';
+                    html += '</div>';
                 });
-                html += '</div></div>';
-            });
+            } else {
+                // Other pages: show argumentation techniques + PEEL/C
+                html += '<h3 class="text-base font-bold text-gray-800 mb-3">\u{1F50D} 判斷文例所用論證手法，然後勾選對應選擇</h3>';
+
+                step.options.forEach(function(opt, oi) {
+                    var data = evalData[currentStep][oi];
+                    html += '<div class="eval-card">';
+                    html += '<p class="text-sm font-semibold text-gray-700 mb-2"><i class="fas fa-file-alt text-blue-400"></i> ' + opt.label + '</p>';
+                    html += '<div class="grid grid-cols-2 gap-1">';
+                    TECHNIQUES.forEach(function(tech) {
+                        var checked = data.techniques.has(tech) ? 'checked' : '';
+                        html += '<label class="technique-cb">';
+                        html += '<input type="checkbox" ' + checked + ' onchange="toggleTechnique(' + currentStep + ',' + oi + ',\'' + tech + '\',this.checked)">';
+                        html += '<span class="text-gray-700">' + tech + '</span>';
+                        html += '</label>';
+                    });
+                    html += '</div>';
+                    // PEEL/C checkbox
+                    var peelcChecked = data.peelc ? 'checked' : '';
+                    html += '<div class="mt-2 border-t border-gray-200 pt-2">';
+                    html += '<label class="technique-cb">';
+                    html += '<input type="checkbox" ' + peelcChecked + ' onchange="togglePeelc(' + currentStep + ',' + oi + ',this.checked)">';
+                    html += '<span class="text-gray-700">符合PEEL/C寫作框架</span>';
+                    html += '</label>';
+                    html += '</div>';
+                    html += '</div>';
+                });
+            }
 
             html += '</div>';
 
@@ -286,6 +327,18 @@
                 evalData[stepIdx][optIdx].techniques.add(tech);
             } else {
                 evalData[stepIdx][optIdx].techniques.delete(tech);
+            }
+        };
+
+        window.togglePeelc = function(stepIdx, optIdx, isChecked) {
+            evalData[stepIdx][optIdx].peelc = isChecked;
+        };
+
+        window.toggleIntroCheck = function(stepIdx, optIdx, ic, isChecked) {
+            if (isChecked) {
+                evalData[stepIdx][optIdx].introChecks.add(ic);
+            } else {
+                evalData[stepIdx][optIdx].introChecks.delete(ic);
             }
         };
 
@@ -321,7 +374,8 @@
         // ── Init ──
         renderStep();
     </script>
+</body>
+</html>
 
 
 
-</body></html>
