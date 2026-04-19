@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《論四端》預習測驗</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", "PingFang HK", sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .question-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 8px;
+        }
+        label {
+            cursor: pointer;
+            display: flex;
+            align-items: baseline;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        label:hover {
+            background-color: #e8f4fd;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        #result-container {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: none;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #e8f4fd;
+            border: 2px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>《論四端》預習測驗</h1>
+    <p style="text-align: center;">請選出最適合的答案，測試你對影片重點的記憶！</p>
+    
+    <div id="quiz-form"></div>
+    
+    <button class="submit-btn" onclick="submitQuiz()">提交測驗</button>
+    
+    <div id="result-container"></div>
+</div>
+
+<script>
+    // 測驗題目資料庫
+    const quizData = [
+        {
+            q: "1. 以下哪一項*不是*孟子的主張？",
+            options: ["霸政（諸侯憑藉武力、刑罰與權勢進行統治的政治模式）", "性善論", "王道（以道德與仁義為基礎，實現國家的治理）", "仁政（實施仁道的具體政策）"],
+            answer: 1,
+            rationale: "影片開頭提及孟子針對戰國時代的霸政，提出了王道的主張，並且游說諸侯效法先王，施行仁政，以解天下之困；且主張性善論，認為人性本善。"
+        },
+        {
+            q: "2. 孟子針對當時諸侯推崇的「霸政」，周遊列國勸說諸侯行仁政，他舉了什麼例子支撐他的觀點？",
+            options: ["一個小孩子快要掉進井裏", "路旁摔倒的老人", "就快被撞倒的小男孩", "丟失物件的眼盲婦人"],
+            answer: 1,
+            rationale: "影片顯示故事原文「今人乍見孺子將入於井」。"
+        },
+        {
+            q: "3. 孟子以「今人乍見孺子將入於井」為例，「乍見」一詞的意思是什麼？",
+            options: ["仔細觀察", "經常看到", "預先知道", "忽然看見"],
+            answer: 4,
+            rationale: "「乍」有突然、忽然的意思，指毫無防備地看見。"
+        },
+        {
+            q: "4. 根據孟子的說法，當人們突然看到小孩快要掉進井裡時，會產生哪種心態？",
+            options: ["幸災樂禍之心", "猶豫不決之心", "驚懼同情之心", "冷眼旁觀之心"],
+            answer: 3,
+            rationale: "影片提到人們都會有驚駭同情的「怵惕惻隱之心」。"
+        },
+        {
+            q: "5. 孟子解釋，人們想救那個小孩，並*不是*出於以下哪些原因？",
+            options: ["結交小孩的父母", "厭惡孩子的聲音", "在鄉里間博取好名聲", "得到孩子的好感"],
+            answer: 1,2,3,
+            rationale: "影片指出救人者這樣並不是想借機會結交小孩子的父母，並不是要在鄉鄰朋友之中博取名聲，並不是要在鄉鄰朋友之中博取名聲。"
+        },
+        {
+            q: "6. 孟子「四端」說中，不忍心別人受到傷害的同情心（「惻隱之心」）是哪一種品德的開端？",
+            options: ["仁", "義", "禮", "智"],
+            answer: 1,
+            rationale: "影片指出「其實，不忍心別人受到傷害的同情心就好像幼苗一樣，是仁的開端。」孟子也說：「惻隱之心，仁之端也。」"
+        },
+        {
+            q: "7. 影片用戲劇形式表現有人打噴嚏不掩住鼻子，被人指責「你這樣不衞生、不禮貌」後，連連道歉並帶上口罩，這對應了四心論哪一種心？",
+            options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
+            answer: 2,
+            rationale: "影片指出這是羞惡之心的表現。羞，指「恥己不善」，即為自己做了錯事感到慚愧。惡，指「憎人不善」，即見別人做了錯事，感到厭惡。羞惡之心為義之端。"
+        },
+        {
+            q: "8. 影片指出為老人讓座的舉動對應了四心論哪一種心？",
+            options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
+            answer: 3,
+            rationale: "影片指出這是推辭謙讓之心的表現。辭︰推辭自己之已得。讓︰讓給別人。辭讓之心為禮之端。"
+        },
+        {
+            q: "9. 影片表現能指出友人打噴嚏不掩住鼻子不妥的人，對應了四心論哪一種心？",
+            options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
+            answer: 4,
+            rationale: "影片指出這是辨別是非之心的表現，能辨別正確與錯誤的事情。是非之心為智之端。"
+        },
+        {
+            q: "10. 「端」在「四端」中的意思最接近？",
+            options: ["端正", "端莊", "發端", "端倪"],
+            answer: 3,
+            rationale: "「端」指萌芽、開端，四端是四種德行的天生種子。"
+        },
+        {
+            q: "11. 孟子提出每個人天生就擁有同情心、羞恥心、謙讓心和是非心，這證明他的哪一項思想主張？",
+            options: ["人性本善", "人性本惡", "人性無善無惡", "人性善惡混雜"],
+            answer: 1,
+            rationale: "影片指出孟子的觀點是人一生下來就有向善的本能，即人性善。"
+        }
+    ];
+
+    const quizForm = document.getElementById('quiz-form');
+
+    // 動態生成測驗題目
+    function renderQuiz() {
+        quizData.forEach((item, index) => {
+            const questionBlock = document.createElement('div');
+            questionBlock.className = 'question-block';
+            questionBlock.id = `question-block-${index}`;
+
+            let optionsHtml = '';
+            item.options.forEach((opt, optIndex) => {
+                optionsHtml += `
+                    <li>
+                        <label>
+                            <input type="radio" name="q${index}" value="${optIndex}">
+                            ${opt}
+                        </label>
+                    </li>
+                `;
+            });
+
+            questionBlock.innerHTML = `
+                <div class="question-title">${item.q}</div>
+                <ul class="options">${optionsHtml}</ul>
+                <div class="feedback" id="feedback-${index}"></div>
+            `;
+            quizForm.appendChild(questionBlock);
+        });
+    }
+
+    // 批改測驗
+    function submitQuiz() {
+        let score = 0;
+        let allAnswered = true;
+
+        quizData.forEach((item, index) => {
+            const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            
+            if (!selectedOption) {
+                allAnswered = false;
+                feedbackDiv.style.display = 'block';
+                feedbackDiv.className = 'feedback incorrect-feedback';
+                feedbackDiv.innerHTML = '⚠️ 請回答此問題。';
+                return;
+            }
+
+            const answerValue = parseInt(selectedOption.value);
+            feedbackDiv.style.display = 'block';
+
+            if (answerValue === item.answer) {
+                score++;
+                feedbackDiv.className = 'feedback correct-feedback';
+                feedbackDiv.innerHTML = `✅ 答對了！<br><strong>解析：</strong>${item.rationale}`;
+            } else {
+                feedbackDiv.className = 'feedback incorrect-feedback';
+                feedbackDiv.innerHTML = `❌ 答錯了。正確答案是：<strong>${item.options[item.answer]}</strong><br><strong>解析：</strong>${item.rationale}`;
+            }
+        });
+
+        if (allAnswered) {
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.style.display = 'block';
+            resultContainer.innerHTML = `測驗完成！<br>你的總分是：<span style="color: #e74c3c; font-size: 1.5em;">${score} / ${quizData.length}</span>`;
+            
+            // 滾動到結果區域
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+            
+            // 隱藏提交按鈕避免重複提交
+            document.querySelector('.submit-btn').style.display = 'none';
+        } else {
+            alert("請完成所有題目後再提交！");
+        }
+    }
+
+    // 頁面載入時執行
+    window.onload = renderQuiz;
+</script>
+
+</body>
+</html>
