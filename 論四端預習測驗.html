@@ -57,8 +57,15 @@
         label:hover {
             background-color: #e8f4fd;
         }
-        input[type="radio"] {
+        input[type="radio"],
+        input[type="checkbox"] {
             margin-right: 10px;
+        }
+        .multi-hint {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 8px;
+            font-style: italic;
         }
         .submit-btn {
             display: block;
@@ -120,71 +127,74 @@
 
 <script>
     // 測驗題目資料庫
+    // answer 使用 0-based 索引（第一個選項 = 0）
+    // multi: true 表示多選題，answer 為正確選項索引的陣列
     const quizData = [
         {
             q: "1. 以下哪一項*不是*孟子的主張？",
             options: ["霸政（諸侯憑藉武力、刑罰與權勢進行統治的政治模式）", "性善論", "王道（以道德與仁義為基礎，實現國家的治理）", "仁政（實施仁道的具體政策）"],
-            answer: 1,
+            answer: 0,
             rationale: "影片開頭提及孟子針對戰國時代的霸政，提出了王道的主張，並且游說諸侯效法先王，施行仁政，以解天下之困；且主張性善論，認為人性本善。"
         },
         {
             q: "2. 孟子針對當時諸侯推崇的「霸政」，周遊列國勸說諸侯行仁政，他舉了什麼例子支撐他的觀點？",
             options: ["一個小孩子快要掉進井裏", "路旁摔倒的老人", "就快被撞倒的小男孩", "丟失物件的眼盲婦人"],
-            answer: 1,
+            answer: 0,
             rationale: "影片顯示故事原文「今人乍見孺子將入於井」。"
         },
         {
             q: "3. 孟子以「今人乍見孺子將入於井」為例，「乍見」一詞的意思是什麼？",
             options: ["仔細觀察", "經常看到", "預先知道", "忽然看見"],
-            answer: 4,
+            answer: 3,
             rationale: "「乍」有突然、忽然的意思，指毫無防備地看見。"
         },
         {
             q: "4. 根據孟子的說法，當人們突然看到小孩快要掉進井裡時，會產生哪種心態？",
             options: ["幸災樂禍之心", "猶豫不決之心", "驚懼同情之心", "冷眼旁觀之心"],
-            answer: 3,
+            answer: 2,
             rationale: "影片提到人們都會有驚駭同情的「怵惕惻隱之心」。"
         },
         {
-            q: "5. 孟子解釋，人們想救那個小孩，並*不是*出於以下哪些原因？",
+            q: "5. 孟子解釋，人們想救那個小孩，並*不是*出於以下哪些原因？（可選多項）",
             options: ["結交小孩的父母", "厭惡孩子的聲音", "在鄉里間博取好名聲", "得到孩子的好感"],
-            answer: 1,2,3,
-            rationale: "影片指出救人者這樣並不是想借機會結交小孩子的父母，並不是要在鄉鄰朋友之中博取名聲，並不是要在鄉鄰朋友之中博取名聲。"
+            answer: [0, 2, 3],
+            multi: true,
+            rationale: "影片指出救人者這樣並不是想借機會結交小孩子的父母，並不是要在鄉鄰朋友之中博取名聲，也不是要得到孩子的好感。"
         },
         {
             q: "6. 孟子「四端」說中，不忍心別人受到傷害的同情心（「惻隱之心」）是哪一種品德的開端？",
             options: ["仁", "義", "禮", "智"],
-            answer: 1,
+            answer: 0,
             rationale: "影片指出「其實，不忍心別人受到傷害的同情心就好像幼苗一樣，是仁的開端。」孟子也說：「惻隱之心，仁之端也。」"
         },
         {
             q: "7. 影片用戲劇形式表現有人打噴嚏不掩住鼻子，被人指責「你這樣不衞生、不禮貌」後，連連道歉並帶上口罩，這對應了四心論哪一種心？",
             options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
-            answer: 2,
+            answer: 1,
             rationale: "影片指出這是羞惡之心的表現。羞，指「恥己不善」，即為自己做了錯事感到慚愧。惡，指「憎人不善」，即見別人做了錯事，感到厭惡。羞惡之心為義之端。"
         },
         {
             q: "8. 影片指出為老人讓座的舉動對應了四心論哪一種心？",
             options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
-            answer: 3,
+            answer: 2,
             rationale: "影片指出這是推辭謙讓之心的表現。辭︰推辭自己之已得。讓︰讓給別人。辭讓之心為禮之端。"
         },
         {
             q: "9. 影片表現能指出友人打噴嚏不掩住鼻子不妥的人，對應了四心論哪一種心？",
             options: ["同情的心（「惻隱之心」）", "「知道羞恥的心」（「羞惡之心」）", "「謙遜推讓的心」（「辭讓之心」）", "「辨別是非的心」（「是非之心」）"],
-            answer: 4,
+            answer: 3,
             rationale: "影片指出這是辨別是非之心的表現，能辨別正確與錯誤的事情。是非之心為智之端。"
         },
         {
             q: "10. 「端」在「四端」中的意思最接近？",
             options: ["端正", "端莊", "發端", "端倪"],
-            answer: 3,
+            answer: 2,
             rationale: "「端」指萌芽、開端，四端是四種德行的天生種子。"
         },
         {
             q: "11. 孟子提出每個人天生就擁有同情心、羞恥心、謙讓心和是非心，這證明他的哪一項思想主張？",
             options: ["人性本善", "人性本惡", "人性無善無惡", "人性善惡混雜"],
-            answer: 1,
+            answer: 0,
             rationale: "影片指出孟子的觀點是人一生下來就有向善的本能，即人性善。"
         }
     ];
@@ -198,12 +208,15 @@
             questionBlock.className = 'question-block';
             questionBlock.id = `question-block-${index}`;
 
+            const inputType = item.multi ? 'checkbox' : 'radio';
+            const multiHint = item.multi ? '<div class="multi-hint">（此題為多選題，請選出所有正確答案）</div>' : '';
+
             let optionsHtml = '';
             item.options.forEach((opt, optIndex) => {
                 optionsHtml += `
                     <li>
                         <label>
-                            <input type="radio" name="q${index}" value="${optIndex}">
+                            <input type="${inputType}" name="q${index}" value="${optIndex}">
                             ${opt}
                         </label>
                     </li>
@@ -212,6 +225,7 @@
 
             questionBlock.innerHTML = `
                 <div class="question-title">${item.q}</div>
+                ${multiHint}
                 <ul class="options">${optionsHtml}</ul>
                 <div class="feedback" id="feedback-${index}"></div>
             `;
@@ -225,27 +239,59 @@
         let allAnswered = true;
 
         quizData.forEach((item, index) => {
-            const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
             const feedbackDiv = document.getElementById(`feedback-${index}`);
-            
-            if (!selectedOption) {
-                allAnswered = false;
+
+            if (item.multi) {
+                // 多選題處理
+                const checked = Array.from(document.querySelectorAll(`input[name="q${index}"]:checked`))
+                    .map(el => parseInt(el.value));
+
+                if (checked.length === 0) {
+                    allAnswered = false;
+                    feedbackDiv.style.display = 'block';
+                    feedbackDiv.className = 'feedback incorrect-feedback';
+                    feedbackDiv.innerHTML = '⚠️ 請回答此問題。';
+                    return;
+                }
+
+                const correctSet = item.answer.slice().sort().join(',');
+                const selectedSet = checked.slice().sort().join(',');
+                const isCorrect = correctSet === selectedSet;
+
                 feedbackDiv.style.display = 'block';
-                feedbackDiv.className = 'feedback incorrect-feedback';
-                feedbackDiv.innerHTML = '⚠️ 請回答此問題。';
-                return;
-            }
+                if (isCorrect) {
+                    score++;
+                    feedbackDiv.className = 'feedback correct-feedback';
+                    feedbackDiv.innerHTML = `✅ 答對了！<br><strong>解析：</strong>${item.rationale}`;
+                } else {
+                    const correctLabels = item.answer.map(i => item.options[i]).join('、');
+                    feedbackDiv.className = 'feedback incorrect-feedback';
+                    feedbackDiv.innerHTML = `❌ 答錯了。正確答案是：<strong>${correctLabels}</strong><br><strong>解析：</strong>${item.rationale}`;
+                }
 
-            const answerValue = parseInt(selectedOption.value);
-            feedbackDiv.style.display = 'block';
-
-            if (answerValue === item.answer) {
-                score++;
-                feedbackDiv.className = 'feedback correct-feedback';
-                feedbackDiv.innerHTML = `✅ 答對了！<br><strong>解析：</strong>${item.rationale}`;
             } else {
-                feedbackDiv.className = 'feedback incorrect-feedback';
-                feedbackDiv.innerHTML = `❌ 答錯了。正確答案是：<strong>${item.options[item.answer]}</strong><br><strong>解析：</strong>${item.rationale}`;
+                // 單選題處理
+                const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+
+                if (!selectedOption) {
+                    allAnswered = false;
+                    feedbackDiv.style.display = 'block';
+                    feedbackDiv.className = 'feedback incorrect-feedback';
+                    feedbackDiv.innerHTML = '⚠️ 請回答此問題。';
+                    return;
+                }
+
+                const answerValue = parseInt(selectedOption.value);
+                feedbackDiv.style.display = 'block';
+
+                if (answerValue === item.answer) {
+                    score++;
+                    feedbackDiv.className = 'feedback correct-feedback';
+                    feedbackDiv.innerHTML = `✅ 答對了！<br><strong>解析：</strong>${item.rationale}`;
+                } else {
+                    feedbackDiv.className = 'feedback incorrect-feedback';
+                    feedbackDiv.innerHTML = `❌ 答錯了。正確答案是：<strong>${item.options[item.answer]}</strong><br><strong>解析：</strong>${item.rationale}`;
+                }
             }
         });
 
