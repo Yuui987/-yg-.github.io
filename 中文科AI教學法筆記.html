@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中文科：讓文字「在場」— AI 賦能教學法筆記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAE6D9;
+    --paper-deep:#DED7C3;
+    --paper-card:#F3F0E6;
+    --ink:#2A241C;
+    --ink-soft:#5B5346;
+    --seal:#A32F1F;
+    --seal-deep:#7A2116;
+    --jade:#3F6650;
+    --jade-light:#6B8F73;
+    --gold:#A6790F;
+    --line:rgba(42,36,28,0.16);
+    --font-display:'Noto Serif TC',serif;
+    --font-body:'Noto Sans TC',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation:none !important; transition:none !important;}
+  }
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 15% 0%, rgba(163,47,31,0.05), transparent 45%),
+      radial-gradient(ellipse at 90% 100%, rgba(63,102,80,0.06), transparent 45%),
+      var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 80px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 24px 40px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    display:inline-block;
+    font-family:var(--font-body);
+    font-size:12.5px;
+    letter-spacing:.18em;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    padding:5px 14px;
+    border-radius:999px;
+    margin-bottom:22px;
+    background:rgba(255,255,255,0.35);
+  }
+  h1.title{
+    font-family:var(--font-display);
+    font-weight:900;
+    font-size:clamp(32px,6vw,52px);
+    margin:0 0 14px;
+    letter-spacing:.02em;
+  }
+  h1.title .accent{color:var(--seal);}
+  .subtitle{
+    font-size:16px;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin:0 auto 30px;
+  }
+  .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .badge{
+    font-family:var(--font-display);
+    font-size:13.5px;
+    font-weight:600;
+    padding:7px 16px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:var(--paper-card);
+    color:var(--ink-soft);
+  }
+
+  /* ---------- SEAL (signature element) ---------- */
+  .seal{
+    width:52px;height:52px;
+    border-radius:8px;
+    background:var(--seal);
+    color:#F3EFE2;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:20px;
+    transform:rotate(-6deg);
+    box-shadow:0 3px 0 rgba(122,33,22,0.35);
+    flex-shrink:0;
+    letter-spacing:1px;
+    border:2px solid rgba(243,239,226,0.5);
+  }
+  .seal.jade{background:var(--jade);box-shadow:0 3px 0 rgba(46,72,58,0.35);}
+
+  /* ---------- TOC ---------- */
+  .toc{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin:36px 0 8px;
+  }
+  .toc a{
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 10px;
+    text-align:center;
+    font-size:13.5px;
+    font-family:var(--font-display);
+    font-weight:600;
+    transition:transform .15s ease, border-color .15s ease;
+  }
+  .toc a:hover{transform:translateY(-3px);border-color:var(--seal);}
+  .toc .num{display:block;font-size:11px;color:var(--seal);letter-spacing:.15em;margin-bottom:4px;font-family:var(--font-body);}
+  @media (max-width:600px){.toc{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- DIVIDER ---------- */
+  .divider{
+    height:1px;
+    margin:64px 0 40px;
+    background:linear-gradient(90deg, transparent, var(--ink) 15%, var(--ink) 85%, transparent);
+    opacity:.18;
+  }
+
+  /* ---------- SECTION ---------- */
+  section{scroll-margin-top:24px;}
+  .sec-head{display:flex;align-items:center;gap:16px;margin-bottom:6px;}
+  .sec-eyebrow{font-size:12px;letter-spacing:.2em;color:var(--seal);font-weight:700;}
+  .sec-title{font-family:var(--font-display);font-size:clamp(22px,4vw,30px);font-weight:700;margin:2px 0 0;}
+  .sec-desc{color:var(--ink-soft);font-size:14.5px;margin:14px 0 28px;max-width:640px;}
+
+  .card{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 24px;
+    margin-bottom:18px;
+  }
+  .card h3{
+    font-family:var(--font-display);
+    font-size:17px;
+    margin:0 0 10px;
+  }
+  .card p{margin:0 0 8px;font-size:14.5px;color:var(--ink);}
+  .card ul{margin:8px 0 0;padding-left:20px;font-size:14.5px;}
+  .card li{margin-bottom:6px;}
+  .tag{
+    display:inline-block;
+    font-size:11.5px;
+    background:rgba(63,102,80,0.12);
+    color:var(--jade);
+    padding:2px 9px;
+    border-radius:999px;
+    font-weight:600;
+    margin-right:6px;
+  }
+  .tag.red{background:rgba(163,47,31,0.1);color:var(--seal);}
+  .source-note{font-size:12.5px;color:var(--ink-soft);font-style:italic;margin-top:10px;}
+
+  /* ---------- 現況/實情 compare ---------- */
+  .compare-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:600px){.compare-pair{grid-template-columns:1fr;}}
+  .compare-box{
+    background:var(--paper);
+    border:1px dashed var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    font-size:14.5px;
+  }
+  .compare-box .label{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--ink-soft);display:block;margin-bottom:6px;}
+  .hl{color:var(--seal);font-weight:700;}
+
+  /* ---------- ACCORDION ---------- */
+  .accordion{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--paper-card);}
+  .diff-item + .diff-item{border-top:1px solid var(--line);}
+  .diff-head{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:none;
+    border:none;
+    text-align:left;
+    padding:16px 20px;
+    cursor:pointer;
+    font-family:var(--font-body);
+    font-size:15px;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .diff-head .n{
+    font-family:var(--font-display);
+    font-weight:700;
+    color:var(--seal);
+    font-size:15px;
+    width:22px;
+    flex-shrink:0;
+  }
+  .diff-head .chev{margin-left:auto;transition:transform .25s ease;color:var(--ink-soft);}
+  .diff-item.open .chev{transform:rotate(45deg);}
+  .diff-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .diff-item.open .diff-body{max-height:200px;}
+  .diff-body-inner{padding:0 20px 18px 56px;font-size:14px;color:var(--ink-soft);}
+
+  /* ---------- FLOW BARS ---------- */
+  .flow-row{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .flow-label{width:64px;flex-shrink:0;font-family:var(--font-display);font-weight:700;font-size:14px;text-align:right;}
+  .flow-bar{flex:1;display:flex;height:38px;border-radius:8px;overflow:hidden;font-size:12px;}
+  .flow-seg{display:flex;align-items:center;justify-content:center;color:#fff;padding:0 4px;white-space:nowrap;overflow:hidden;}
+  .seg-input{background:#8C9A7C;flex:0.8;}
+  .seg-write{background:#C9AA5B;flex:1.1;}
+  .seg-mark-trad{background:var(--seal);flex:5.5;}
+  .seg-mark-ai{background:var(--seal);flex:0.6;}
+  .seg-feedback-trad{background:var(--jade);flex:1.2;}
+  .seg-feedback-ai{background:var(--jade);flex:4.4;}
+
+  /* ---------- TOGGLE ---------- */
+  .toggle-group{display:inline-flex;background:var(--paper-deep);border-radius:999px;padding:4px;margin-bottom:18px;}
+  .toggle-btn{
+    border:none;background:none;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:13.5px;
+    padding:8px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .toggle-btn.active{background:var(--ink);color:var(--paper);}
+  .toggle-panel{display:none;}
+  .toggle-panel.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .annot-text{
+    background:var(--paper);
+    border-radius:10px;
+    padding:20px 22px;
+    font-size:15px;
+    line-height:2;
+    border:1px solid var(--line);
+  }
+  .mk-trad{background:rgba(163,47,31,0.14);color:var(--seal-deep);padding:1px 3px;border-bottom:2px solid var(--seal);border-radius:2px;}
+  .mk-ai{background:rgba(63,102,80,0.14);color:var(--jade);padding:1px 3px;border-bottom:2px solid var(--jade);border-radius:2px;}
+  .annot-caption{font-size:12.5px;color:var(--ink-soft);margin-top:10px;}
+
+  /* ---------- FORM STRUCTURE ---------- */
+  .form-grid{display:grid;grid-template-columns:36px 1fr;gap:10px 14px;}
+  .form-grid .k{
+    font-family:var(--font-display);
+    font-weight:700;
+    color:var(--seal);
+    text-align:center;
+  }
+  .form-grid .v{font-size:14.5px;padding-bottom:8px;border-bottom:1px dashed var(--line);}
+  .score-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .score-chip{
+    font-size:12.5px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:5px 11px;
+    border-radius:8px;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- QUOTE ---------- */
+  .quote-block{
+    border-left:3px solid var(--seal);
+    padding:6px 0 6px 22px;
+    margin:24px 0 28px;
+    font-family:var(--font-display);
+    font-size:17px;
+    color:var(--ink);
+  }
+  .quote-block .author{display:block;margin-top:8px;font-size:13px;color:var(--ink-soft);font-family:var(--font-body);}
+
+  /* ---------- CHECKLIST ---------- */
+  .progress-line{
+    display:flex;align-items:center;gap:12px;
+    margin:8px 0 26px;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .progress-track{flex:1;height:8px;background:var(--paper-deep);border-radius:999px;overflow:hidden;}
+  .progress-fill{height:100%;width:0%;background:var(--jade);transition:width .3s ease;}
+  .check-group{margin-bottom:22px;}
+  .check-group h4{font-family:var(--font-display);font-size:14.5px;color:var(--seal);margin:0 0 10px;}
+  .check-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;font-size:14.5px;cursor:pointer;}
+  .check-item input{margin-top:3px;accent-color:var(--jade);width:16px;height:16px;flex-shrink:0;}
+  .check-item span.done{text-decoration:line-through;color:var(--ink-soft);}
+
+  footer{
+    margin-top:60px;
+    padding-top:30px;
+    border-top:1px solid var(--line);
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  footer .foot-quote{
+    font-family:var(--font-display);
+    font-size:15px;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="eyebrow">寧波公學「善用 AI 賦能」分享簡報 · 學習整理筆記</span>
+    <h1 class="title">中文科：讓文字<span class="accent">「在場」</span></h1>
+    <p class="subtitle">從閱讀理解到寫作批改——AI 如何補足傳統教學的兩個缺口，並保留教師不可取代的角色。</p>
+    <div class="badge-row">
+      <span class="badge">輔助教</span>
+      <span class="badge">精準教學</span>
+      <span class="badge">學習夥伴</span>
+    </div>
+
+    <div class="toc">
+      <a href="#reading"><span class="num">卷一</span>閱讀教學</a>
+      <a href="#writing"><span class="num">卷二</span>寫作批改</a>
+      <a href="#show-tell"><span class="num">卷三</span>述說與呈現</a>
+      <a href="#checklist"><span class="num">卷四</span>教學設計清單</a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ================= SECTION 1：閱讀教學 ================= -->
+  <section id="reading">
+    <div class="sec-head">
+      <div class="seal">讀</div>
+      <div>
+        <div class="sec-eyebrow">卷一 · 輔助「教」</div>
+        <h2 class="sec-title">AI 讓「缺席者」變成「在場者」</h2>
+      </div>
+    </div>
+    <p class="sec-desc">中文科閱讀教學最大的痛點，不是學生不讀，而是讀完之後畫面沒有留在腦海裡。AI 的角色，是把文字重新「畫」出來。</p>
+
+    <div class="card">
+      <h3>現況與實情，一字之差</h3>
+      <div class="compare-pair">
+        <div class="compare-box">
+          <span class="label">現況（我們以為的問題）</span>
+          學生能閱讀，但<span class="hl">不去</span>理解。
+        </div>
+        <div class="compare-box">
+          <span class="label">實情（真正的問題）</span>
+          學生能閱讀，但<span class="hl">不能</span>理解。
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:13.5px;color:var(--ink-soft);">「不去」是動機問題，「不能」是能力問題——後者才是需要教學介入、而非單靠催谷可解決的核心。</p>
+    </div>
+
+    <div class="card">
+      <h3>對應策略：形象化（Visualizing）</h3>
+      <span class="tag">Tompkins, 2010</span>
+      <ul>
+        <li>為閱讀資料的內容或主角，繪畫出形象化的外表</li>
+        <li>繪畫出其閱讀材料的其中一章</li>
+      </ul>
+      <p style="margin-top:12px;">AI 的角色，是把上述「繪畫」的門檻大幅降低——學生不需要繪畫能力，也能即時把文字轉化為畫面。</p>
+    </div>
+
+    <div class="card">
+      <h3>課堂示例：以殷培基〈家常便飯〉為例</h3>
+      <p>AI 將文中父子二人做菜的場景轉化為圖像，用作促進課堂討論的切入點——引導學生觀察畫面中的人物神情、動作與氛圍，再回到文本印證細節。</p>
+      <p>教師保留的角色是<strong>「總結和點撥」</strong>：把這篇文章與其他文本（如《藥爐．母親》、《水調歌頭》、《天淨沙．秋思》）連結起來，帶學生看見同一主題在不同文體中的呈現方式。</p>
+      <div class="source-note">教學重點：AI 負責「畫出畫面」，教師負責「點出意義」——分工清晰，缺一不可。</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= SECTION 2：寫作批改 ================= -->
+  <section id="writing">
+    <div class="sec-head">
+      <div class="seal jade">寫</div>
+      <div>
+        <div class="sec-eyebrow">卷二 · 精準教學</div>
+        <h2 class="sec-title">寫作批改：從等待到即時</h2>
+      </div>
+    </div>
+    <p class="sec-desc">傳統批改的問題不在教師不夠用心，而在回饋週期太長，學生收到評語時已經忘記自己寫過甚麼。</p>
+
+    <div class="card">
+      <h3>香港中學生中文寫作五大難點</h3>
+      <div class="accordion" id="diff-accordion">
+        <div class="diff-item open">
+          <button class="diff-head" data-i="1">
+            <span class="n">01</span> 詞彙量不足、語法錯誤、句式單一
+            <span class="chev">+</span>
+          </button>
+          <div class="diff-body"><div class="diff-body-inner">基本語言能力未達寫作要求，句式重複、詞彙貧乏，難以準確表達細緻的意思。</div></div>
+        </div>
+        <div class="diff-item">
+          <button class="diff-head" data-i="2">
+            <span class="n">02</span> 審題不清
+            <span class="chev">+</span>
+          </button>
+          <div class="diff-body"><div class="diff-body-inner">忽略部分概念詞，未能釐清概念詞的核心意思及彼此之間的邏輯關係，導致文章偏題或半離題。</div></div>
+        </div>
+        <div class="diff-item">
+          <button class="diff-head" data-i="3">
+            <span class="n">03</span> 缺乏創意及深度
+            <span class="chev">+</span>
+          </button>
+          <div class="diff-body"><div class="diff-body-inner">選材、立意流於表面；觀察欠細緻，難以在同類題目中寫出獨特角度。</div></div>
+        </div>
+        <div class="diff-item">
+          <button class="diff-head" data-i="4">
+            <span class="n">04</span> 篇章結構鬆散
+            <span class="chev">+</span>
+          </button>
+          <div class="diff-body"><div class="diff-body-inner">鋪墊過於冗長、頭重腳輕、橫生枝節，令故事主線失焦。</div></div>
+        </div>
+        <div class="diff-item">
+          <button class="diff-head" data-i="5">
+            <span class="n">05</span> 缺乏寫作動機與自信心
+            <span class="chev">+</span>
+          </button>
+          <div class="diff-body"><div class="diff-body-inner">長期得不到即時、具體的正面回饋，容易對寫作失去興趣與信心。</div></div>
+        </div>
+      </div>
+      <div class="source-note">資料來源：2025/26 中文科中期會議紀錄分析</div>
+    </div>
+
+    <div class="card">
+      <h3>寫作流程對比：教師批改工作量約 5 小時／3 週</h3>
+      <div class="flow-row">
+        <div class="flow-label" style="color:var(--ink-soft)">傳統</div>
+        <div class="flow-bar">
+          <div class="flow-seg seg-input">寫作輸入</div>
+          <div class="flow-seg seg-write">學生寫作</div>
+          <div class="flow-seg seg-mark-trad">教師批改（約5小時／3週）</div>
+          <div class="flow-seg seg-feedback-trad">回饋</div>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-label" style="color:var(--jade)">AI</div>
+        <div class="flow-bar">
+          <div class="flow-seg seg-input">寫作輸入</div>
+          <div class="flow-seg seg-write">學生寫作</div>
+          <div class="flow-seg seg-mark-ai">AI批改</div>
+          <div class="flow-seg seg-feedback-ai">更豐富、更即時的回饋</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-top:10px;">AI 縮短的是「等待」的時間，換來的是可以放在「回饋」與「重寫」上的時間——這正是解決難點五（缺乏動機）的關鍵：回饋越快，學生越有動力修改。</p>
+    </div>
+
+    <div class="card">
+      <h3>互動示範：同一句評語，兩種批改方式</h3>
+      <div class="toggle-group" id="markToggle">
+        <button class="toggle-btn active" data-target="mark-trad">傳統硃批</button>
+        <button class="toggle-btn" data-target="mark-ai">AI 批註</button>
+      </div>
+      <div class="toggle-panel active" id="mark-trad">
+        <div class="annot-text">
+          在爸爸放工的時候已經是<span class="mk-trad">九點多了</span>，很多的水果店和超市都已關門。
+        </div>
+        <div class="annot-caption">紅筆圈出錯別字／語病，通常只標示「錯處」，學生需自行推敲如何改善——回饋量受限於教師逐字批改的時間。</div>
+      </div>
+      <div class="toggle-panel" id="mark-ai">
+        <div class="annot-text">
+          在爸爸放工的時候已經是<span class="mk-ai">九點多了</span>，很多的水果店和超市都已關門。
+        </div>
+        <div class="annot-caption">AI 除標示問題外，可即時附上具體改寫建議（如：補充人物疲憊的神情、動作），並保留供教師覆核；回饋量不受批改時間限制。</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>「中文科寫作報告」表單結構</h3>
+      <div class="form-grid">
+        <div class="k">甲</div><div class="v">總評（依評分細則作總結性評語）</div>
+        <div class="k">乙</div><div class="v">優缺點及見解——按取材／立意／手法／語句／細節／詳略評分並附評語</div>
+        <div class="k">丙</div><div class="v">電子簽署</div>
+        <div class="k">丁</div><div class="v">精進改寫建議——螢光筆標示原文中可改善段落，並附具體改寫建議</div>
+      </div>
+      <div class="score-chips">
+        <span class="score-chip">內容分</span>
+        <span class="score-chip">表達分</span>
+        <span class="score-chip">結構分</span>
+        <span class="score-chip">標點字體分</span>
+        <span class="score-chip">錯別字扣分</span>
+        <span class="score-chip">→ 總分及等級</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= SECTION 3：述說與呈現 ================= -->
+  <section id="show-tell">
+    <div class="sec-head">
+      <div class="seal">念</div>
+      <div>
+        <div class="sec-eyebrow">卷三 · 精準教學／學習夥伴</div>
+        <h2 class="sec-title">述說與呈現：自我檢視的核心概念</h2>
+      </div>
+    </div>
+    <p class="sec-desc">學生寫作的通病是「只有述說，沒有呈現」——把情節交代一遍，卻沒有把畫面留給讀者。</p>
+
+    <div class="quote-block">
+      文學作品不重述說而重呈現，理由是述說往往流於抽象空疏，呈現則令信息具體可感。
+      <span class="author">—— 朱少璋</span>
+    </div>
+
+    <div class="card">
+      <h3>互動對比：加入感官細節前後</h3>
+      <div class="toggle-group" id="draftToggle">
+        <button class="toggle-btn active" data-target="draft-1">初稿：只有述說</button>
+        <button class="toggle-btn" data-target="draft-2">修改版：能夠呈現</button>
+      </div>
+      <div class="toggle-panel active" id="draft-1">
+        <p>初稿只交代情節——老闆娘倒了一碗糖水、叮囑「我」溫習功課，欠缺動作、感官細節與現場氛圍，讀者只能「被告知」發生了甚麼事。</p>
+      </div>
+      <div class="toggle-panel" id="draft-2">
+        <p>修改版加入具體畫面：木門上的風鈴聲、奶凍冒起的細細熱氣、捧碗時從手心傳來的溫度……讓讀者透過感官細節，親身「感受」現場，而不只是「知道」情節。</p>
+      </div>
+      <p class="annot-caption" style="margin-top:14px;">AI 在此的角色是「文字圖像化」——把學生的描寫轉成圖像，讓學生自己判斷：畫面是否具體？若 AI 畫不出來，往往就是描寫不夠立體的訊號。</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ================= SECTION 4：教學設計清單 ================= -->
+  <section id="checklist">
+    <div class="sec-head">
+      <div class="seal jade">用</div>
+      <div>
+        <div class="sec-eyebrow">卷四 · 落地實踐</div>
+        <h2 class="sec-title">教學設計檢核清單</h2>
+      </div>
+    </div>
+    <p class="sec-desc">把以上內容轉化為可直接套用的備課步驟。勾選以追蹤自己備課／學習進度。</p>
+
+    <div class="progress-line">
+      <span>完成度</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0 / 12</span>
+    </div>
+
+    <div class="card">
+      <div class="check-group">
+        <h4>閱讀教學設計</h4>
+        <label class="check-item"><input type="checkbox"><span>選定文本中的關鍵場景／人物</span></label>
+        <label class="check-item"><input type="checkbox"><span>用 AI 生成場景圖像，作為課堂討論的引子</span></label>
+        <label class="check-item"><input type="checkbox"><span>設計聚焦細節的提問（神情／動作／氛圍）</span></label>
+        <label class="check-item"><input type="checkbox"><span>預留教師總結環節，連結其他文本延伸</span></label>
+      </div>
+      <div class="check-group">
+        <h4>寫作批改設計</h4>
+        <label class="check-item"><input type="checkbox"><span>建立標準化評分細則，供 AI 依循</span></label>
+        <label class="check-item"><input type="checkbox"><span>上傳批改標準／評分表格作為 AI 的參照依據</span></label>
+        <label class="check-item"><input type="checkbox"><span>設計「總評＋細項評語＋改寫建議」三層回饋</span></label>
+        <label class="check-item"><input type="checkbox"><span>保留教師人手覆核與點撥環節</span></label>
+      </div>
+      <div class="check-group">
+        <h4>述說轉呈現訓練</h4>
+        <label class="check-item"><input type="checkbox"><span>提醒學生檢視：文章是否只有「交代情節」</span></label>
+        <label class="check-item"><input type="checkbox"><span>引導學生加入感官細節（視覺／聽覺／觸覺）</span></label>
+        <label class="check-item"><input type="checkbox"><span>用 AI 生成對應圖像，檢視畫面是否具體</span></label>
+        <label class="check-item"><input type="checkbox"><span>對比初稿與修改版，讓學生自我評鑑</span></label>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-quote">AI 處理基礎與速度，教師專注引導質疑、批判與創造。</div>
+    整理自寧波公學「善用 AI 賦能——槓桿原理，人機協作」分享簡報（中文科部分）<br>供個人學習及教學設計參考
+  </footer>
+
+</div>
+
+<script>
+  // 手風琴：五大寫作難點
+  document.querySelectorAll('#diff-accordion .diff-head').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = btn.closest('.diff-item');
+      var alreadyOpen = item.classList.contains('open');
+      document.querySelectorAll('#diff-accordion .diff-item').forEach(function(i){ i.classList.remove('open'); });
+      if(!alreadyOpen){ item.classList.add('open'); }
+    });
+  });
+
+  // 通用 toggle 群組（硃批/AI批註、初稿/修改版）
+  function setupToggle(groupId){
+    var group = document.getElementById(groupId);
+    var buttons = group.querySelectorAll('.toggle-btn');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        buttons.forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        var target = btn.getAttribute('data-target');
+        var panels = document.querySelectorAll('#' + (groupId === 'markToggle' ? 'mark-trad, #mark-ai' : 'draft-1, #draft-2'));
+        panels.forEach(function(p){ p.classList.remove('active'); });
+        document.getElementById(target).classList.add('active');
+      });
+    });
+  }
+  setupToggle('markToggle');
+  setupToggle('draftToggle');
+
+  // 檢核清單進度
+  var checkboxes = document.querySelectorAll('.check-item input[type=checkbox]');
+  var progressFill = document.getElementById('progressFill');
+  var progressText = document.getElementById('progressText');
+  function updateProgress(){
+    var total = checkboxes.length;
+    var done = 0;
+    checkboxes.forEach(function(cb){ if(cb.checked) done++; });
+    progressFill.style.width = (done/total*100) + '%';
+    progressText.textContent = done + ' / ' + total;
+  }
+  checkboxes.forEach(function(cb){
+    cb.addEventListener('change', function(){
+      var label = cb.nextElementSibling;
+      if(cb.checked){ label.classList.add('done'); } else { label.classList.remove('done'); }
+      updateProgress();
+    });
+  });
+  updateProgress();
+</script>
+</body>
+</html>
